@@ -2,7 +2,9 @@ package com.example.todoapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -24,13 +26,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         lvItems = findViewById(R.id.lvItems);
         items = new ArrayList<>();
         readItems();
+
+        /* Displays no data text if list is empty */
+        View empty = getLayoutInflater().inflate(R.layout.empty_list_item, null, false);
+        addContentView(empty, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        lvItems.setEmptyView(empty);
+
         itemsAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, items);
         lvItems.setAdapter(itemsAdapter);
         //items.add("Task 1");
         //items.add("Task 2");
+
+        /* Deletes an item from the list upon short press */
         setupListViewListener();
     }
 
